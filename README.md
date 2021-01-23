@@ -19,3 +19,5 @@ npm run
 1) [Introduction](1-introduction/)
 2) [NodeJS http server](2-node-js-http-server/)
 3) [Express](3-exress/)
+4) [Dynamic content](4-dynamic-content/)
+5) [MVC pattern](5-MVC)
