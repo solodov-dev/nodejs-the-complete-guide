@@ -21,3 +21,5 @@ npm run
 3) [Express](3-exress/)
 4) [Dynamic content](4-dynamic-content/)
 5) [MVC pattern](5-MVC)
+6) [Query params](6-query-params)
+7) [SQL introduction](7-sql-introduction)
