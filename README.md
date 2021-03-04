@@ -12,7 +12,7 @@ npm install
 and then
 
 ```bash
-npm run
+npm start
 ```
 
 ## ToC 
