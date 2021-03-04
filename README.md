@@ -24,3 +24,4 @@ npm start
 6) [Query params](6-query-params)
 7) [SQL and Sequelize](7-sql-introduction)
 8) [MongoDB and Mongoose](8-nosql-mongodb)
+9) [Sessions and Cookies](9-sessions-cookies)
