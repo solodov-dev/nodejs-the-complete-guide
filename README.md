@@ -22,4 +22,5 @@ npm run
 4) [Dynamic content](4-dynamic-content/)
 5) [MVC pattern](5-MVC)
 6) [Query params](6-query-params)
-7) [SQL introduction](7-sql-introduction)
+7) [SQL and Sequelize](7-sql-introduction)
+8) [MongoDB and Mongoose](8-nosql-mongodb)
