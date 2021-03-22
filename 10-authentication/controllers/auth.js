@@ -95,9 +95,16 @@ exports.postLogout = (req, res, next) => {
 };
 
 exports.getReset = (req, res, next) => {
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   res.render('auth/reset', {
     path: '/reset',
     pageTitle: 'Reset Password',
+    errorMessage: message,
   });
 };
 
@@ -122,8 +129,8 @@ exports.postReset = (req, res, next) => {
           from: 'asolodoff@gmail.com',
           subject: 'Password reset',
           html: `
-          <p>You requested a password reset</p>
-          <p>Clck this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password</p>>
+          <h1>You requested a password reset</h1>
+          <p>Clck this <a href="http://localhost:3001/reset/${token}">link</a> to set a new password</p>
         `,
         });
       })
@@ -131,20 +138,48 @@ exports.postReset = (req, res, next) => {
   });
 };
 
-exports.getNewPassword = (req,res,next) => {
+exports.getNewPassword = (req, res, next) => {
   const token = req.params.token;
-  User.findOne({resetToekn: token, resetTokenExpiration: {$gt: Date.now()}}).then(user => {
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
-  res.render('auth/new-password', {
-    path = '/new-password',
-    pageTitle: 'New Password',
-    errorMessage: message,
-    userId: user._id.toString()
+  User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
+    .then((user) => {
+      let message = req.flash('error');
+      if (message.length > 0) {
+        message = message[0];
+      } else {
+        message = null;
+      }
+      res.render('auth/new-password', {
+        path: '/new-password',
+        pageTitle: 'New Password',
+        errorMessage: message,
+        userId: user._id.toString(),
+        passwordToken: token,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.postNewPassword = (req, res, next) => {
+  const newPassword = req.body.password;
+  const userId = req.body.userId;
+  const passwordToken = req.body.passwordToken;
+  let resetUser;
+
+  User.findOne({
+    resetToken: passwordToken,
+    resetTokenExpiration: { $gt: Date.now() },
+    _id: userId,
   })
-  }).catch(err => console.log(err))
-}
+    .then((user) => {
+      resetUser = user;
+      return bcrypt.hash(newPassword, 12);
+    })
+    .then((hashedPassword) => {
+      resetUser.password = hashedPassword;
+      resetUser.resetToken = undefined;
+      resetUser.resetTokenExpiration = undefined;
+      return resetUser.save();
+    })
+    .then((result) => res.redirect('/login'))
+    .catch((err) => console.log(err));
+};
