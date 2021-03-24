@@ -28,3 +28,4 @@ npm start
 8. [MongoDB and Mongoose](8-nosql-mongodb)
 9. [Sessions and Cookies](9-sessions-cookies)
 10. [Authentication](10-authentication)
+11. [Input validation](11-validation)
