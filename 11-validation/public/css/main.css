@@ -240,6 +240,7 @@ form {
   border-radius: 3px;
   background: #b9c9ff;
   text-align: center;
+  width: max-content;
 }
 
 .user-message--error {
